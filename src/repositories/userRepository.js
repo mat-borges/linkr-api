@@ -9,7 +9,8 @@ async function getUserByEmail (email) {
 }
 
 const userRepository = {
-    newUser
+    newUser,
+    getUserByEmail
 };
 
 export default userRepository;
