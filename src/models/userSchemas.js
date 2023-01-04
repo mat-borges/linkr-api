@@ -8,6 +8,7 @@ export const authSchema = joi.object({
     .messages({ 'any.only': '{{#label}} does not match' }),
     image: joi.string().required()
 });
+
 export const authSignInSchema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().max(70).min(3).required()
