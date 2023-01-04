@@ -10,5 +10,7 @@ app.use(cors());
 app.use(json());
 app.use(authRoutes);
 
+app.use(postRouter);
+
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Running server on http://localhost:${port}`));
