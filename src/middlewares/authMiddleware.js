@@ -46,3 +46,23 @@ export async function checkEmailInDb (req, res, next){
         return res.status(500).send(error.message);
     }
 }
+
+export async function checkObjToSignIn (req, res, next){
+    const user = req.body;
+
+    try{
+        const userDb = (await userRepository.getUserByEmail(user.email)).rows[0];
+
+        const passwordValidation = bcrypt.compareSync(user.password, userDb.password);
+
+        if (!passwordValidation) {
+            return res.sendStatus(401);
+        }
+
+        res.locals.user = user;
+        next();
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+
+}
