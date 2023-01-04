@@ -29,7 +29,7 @@ export function authBodyValidation (req, res, next) {
     res.locals.auth = user
     next();
 }
-    
+
 export async function checkEmailInDb (req, res, next){
     const auth = res.locals.auth;
 
