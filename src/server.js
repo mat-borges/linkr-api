@@ -1,17 +1,14 @@
 import express, { json } from 'express';
-
 import cors from 'cors';
 import dotenv from 'dotenv';
-import postRouter from './routes/postsRouter.js';
-import { stripHtml } from 'string-strip-html';
-
-export const cleanStringData = (string) => stripHtml(JSON.stringify(string)?.replace(/"|"/gi, ``)).result.trim();
+import authRoutes from "./routes/auth.Routes.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(json());
+app.use(authRoutes);
 
 app.use(postRouter);
 
