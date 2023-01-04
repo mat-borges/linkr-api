@@ -2,7 +2,7 @@ import sessionRepository from "../repositories/sessionRepository.js";
 import userRepository from "../repositories/userRepository.js";
 
 export async function signUp (req, res) {
-    const {name, email, password, image} = res.locasls.auth;
+    const {name, email, password, image} = res.locals.auth;
 
     try {
         await userRepository.newUser(name, email, password, image);
