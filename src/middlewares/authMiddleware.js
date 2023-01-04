@@ -30,4 +30,19 @@ export function authBodyValidation (req, res, next) {
     next();
 }
     
+export async function checkEmailInDb (req, res, next){
+    const auth = res.locals.auth;
 
+    try{
+        const emailExist = await userRepository.getUserByEmail(auth.email);
+
+        if(emailExist){
+            return res.sendStatus(409);
+        }
+        
+        res.locals.auth = auth;
+        next();
+    } catch (error){
+        return res.status(500).send(error.message);
+    }
+}
