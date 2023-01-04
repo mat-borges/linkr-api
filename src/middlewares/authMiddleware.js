@@ -11,22 +11,22 @@ export function authBodyValidation (req, res, next) {
     }
 
     const { error } = authSchema.validate(auth, { abortEarly: false });
-
+ 
     if (error) {
         const errors = error.details.map((detail) => detail.message);
         return res.status(422).send(errors);
     }
-    
+   
     const hashPassword = bcrypt.hashSync(auth.password, 10)
 
-    const user = {
+    const userObj = {
         name: auth.name,
         email: auth.email,
         password: hashPassword,
         image: auth.image
     }
 
-    res.locals.auth = user
+    res.locals.auth = userObj
     next();
 }
 
@@ -36,7 +36,7 @@ export async function checkEmailInDb (req, res, next){
     try{
         const emailExist = await userRepository.getUserByEmail(auth.email);
 
-        if(emailExist){
+        if(emailExist.rows[0]){
             return res.sendStatus(409);
         }
         
