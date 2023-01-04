@@ -1,11 +1,10 @@
 import { connection } from '../db/db.js';
 
-async function publish(user_id, link, description, created_at) {
-  return connection.query(`INSERT INTO posts (user_id, link, description, created_at) VALUES ($1,$2,$3,$4)`, [
+async function publish(user_id, link, description) {
+  return connection.query(`INSERT INTO posts (user_id, link, description) VALUES ($1,$2,$3)`, [
     user_id,
     link,
     description,
-    created_at,
   ]);
 }
 

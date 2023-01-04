@@ -7,7 +7,6 @@ export function postSchemaValidation(req, res, next) {
   const post = {
     link: cleanStringData(link),
     description: cleanStringData(description),
-    created_at: dayjs().unix(),
   };
   const { error } = postSchema.validate(post, { abortEarly: false });
 
