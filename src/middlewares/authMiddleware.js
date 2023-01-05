@@ -46,3 +46,43 @@ export async function checkEmailInDb (req, res, next){
         return res.status(500).send(error.message);
     }
 }
+
+export async function checkObjToSignIn (req, res, next){
+    const user = res.locals.user;
+
+    try{
+        const userDb = (await userRepository.getUserByEmail(user.email)).rows[0];
+
+        const passwordValidation = bcrypt.compareSync(user.password, userDb.password);
+
+        if (!passwordValidation) {
+            return res.sendStatus(401);
+        }
+
+        const {id, image, name} = userDb
+
+
+        res.locals.user = {...user, id, image, name};
+        next();
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
+export function checkObjSchema (req, res, next) {
+    const user = req.body;
+
+    if (!user) {
+        return res.sendStatus(400);
+    }
+
+    const { error } = authSignInSchema.validate(user, { abortEarly: false });
+ 
+    if (error) {
+        const errors = error.details.map((detail) => detail.message);
+        return res.status(422).send(errors);
+    }
+
+    res.locals.user = user;
+    next();
+}
