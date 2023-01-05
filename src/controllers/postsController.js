@@ -5,7 +5,7 @@ export async function publishLink(req, res) {
   const user_id = 1; // mock
 
   try {
-    //  await postsRepository.publish(user_id, link, description);
+    await postsRepository.publish(user_id, link, description);
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
