@@ -59,7 +59,10 @@ export async function checkObjToSignIn (req, res, next){
             return res.sendStatus(401);
         }
 
-        res.locals.user = user;
+        const {id, image, name} = userDb
+
+
+        res.locals.user = {...user, id, image, name};
         next();
     } catch (error) {
         return res.status(500).send(error.message);
