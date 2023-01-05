@@ -13,7 +13,7 @@ async function getSession (token) {
 };
 
 async function getSessionById (user_id) {
-    return connection.query(`SELECT * FROM sessions WHERE user_id=$1 AND status=true;`, [user_id])
+    return connection.query(`SELECT * FROM sessions WHERE user_id = $1 AND status = true;`, [user_id])
 }
 
 const sessionRepository = {
