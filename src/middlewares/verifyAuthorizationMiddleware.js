@@ -18,6 +18,7 @@ export function authenticateUser(req, res, next) {
 
 export async function verifySession(req, res, next) {
   const { token } = res.locals;
+
   try {
     const session = (await sessionRepository.getSession(token)).rows[0];
     if (!session) {
