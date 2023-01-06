@@ -1,5 +1,4 @@
 import { cleanStringData } from '../server.js';
-import dayjs from 'dayjs';
 import { postSchema } from '../models/postsSchema.js';
 
 export function postSchemaValidation(req, res, next) {
