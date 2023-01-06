@@ -8,6 +8,6 @@ async function getPosts() {
 
 const timelineRepository = {
     getPosts
-};
+  };
 
 export default timelineRepository;
