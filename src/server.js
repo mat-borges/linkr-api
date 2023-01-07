@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import postRouter from './routes/postsRouter.js';
 import { stripHtml } from 'string-strip-html';
 import timelineRouter from "./routes/timelineRouter.js"
-import hashtagRouter from './routes/hashtagsRouter.js';
+import hashtagRouter from './routes/hashtagRouter.js';
 
 export const cleanStringData = (string) => stripHtml(JSON.stringify(string)?.replace(/"|"/gi, ``)).result.trim();
 
