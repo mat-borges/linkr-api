@@ -20,3 +20,15 @@ export async function publishLink(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function likePost(req,res){
+  try {
+    const {user_id} = res.locals.user;
+    console.log(user_id)
+    res.sendStatus(200)
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+  
+}
