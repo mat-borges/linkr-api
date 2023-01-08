@@ -25,8 +25,7 @@ export async function verifySession(req, res, next) {
     if (!session || session.status === false) {
       res.sendStatus(401);
     } else {
-      res.send('ok');
-      // next();
+      next();
     }
   } catch (err) {
     console.log(err);
