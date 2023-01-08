@@ -5,6 +5,6 @@ import { search } from '../controllers/searchControllers.js';
 
 const router = Router();
 
-router.use('/search', authenticateUser, verifySession, search);
+router.use('/search/:input', authenticateUser, verifySession, search);
 
 export default router;

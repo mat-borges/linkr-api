@@ -1,11 +1,11 @@
 import userRepository from '../repositories/userRepository.js';
 
 export async function search(req, res) {
-  const { input } = req.body;
+  const { input } = req.params;
   let result = [];
 
   try {
-    if (input.includes('#')) {
+    if (input?.includes('#')) {
       const hashtag = input.replace('#', '');
       console.log({ hashtag });
       result = { hashtag };
