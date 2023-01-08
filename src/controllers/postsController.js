@@ -21,6 +21,17 @@ export async function publishLink(req, res) {
   }
 }
 
+export async function deletePost(req, res){
+  const {id} = req.params
+  try{
+    await postsRepository.deleteUserPosts(id)
+    res.sendStatus(200)
+  }catch(err){
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
 export async function likePost(req,res){
   try {
     const {user_id} = res.locals.user;
