@@ -14,7 +14,7 @@ async function relateHashtagPost(post_id, hashtag_id) {
 
 async function getTopTrending() {
   return connection.query(`
-    SELECT hp.hashtag_id, h.name AS name, COUNT(hp.hashtag_id) AS hashtag_count
+    SELECT hp.hashtag_id, h.name AS name, COUNT(hp.hashtag_id)::INTEGER AS hashtag_count
     FROM hashtag_post hp
     LEFT JOIN hashtags h ON h.id=hp.hashtag_id
     GROUP BY hp.hashtag_id, h.name
