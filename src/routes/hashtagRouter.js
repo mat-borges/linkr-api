@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { showPostsRelatedToHashtag } from "../controllers/trendController.js";
+import { showPostsRelatedToHashtag } from "../controllers/hashtagController.js";
 
 const router = Router();
 
