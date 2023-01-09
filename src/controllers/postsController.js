@@ -1,6 +1,6 @@
-import hashtagsRepository from "../repositories/hashtagsRepository.js";
-import postsRepository from "../repositories/postsRepository.js";
-import urlMetadata from "url-metadata";
+import hashtagsRepository from '../repositories/hashtagsRepository.js';
+import postsRepository from '../repositories/postsRepository.js';
+import urlMetadata from 'url-metadata';
 
 export async function publishLink(req, res) {
   const { link, description } = res.locals.post;
@@ -68,15 +68,15 @@ export async function getLikesByPost(req, res) {
     for (let i = 0; i < likes.rows.length; i++) {
       const name = likes.rows[i].name;
       const user_id = likes.rows[i].user_id;
-      const obj={
+      const obj = {
         name,
-        user_id
-      }
-      users.push(obj)
+        user_id,
+      };
+      users.push(obj);
     }
     const data = {
       likeCount: likes.rows.length,
-      users
+      users,
     };
     res.send(data);
   } catch (error) {
@@ -98,16 +98,16 @@ export async function getPostMetadata(req, res) {
         const source = metadata.source;
         if (imagePath.length === 0) {
           metadata.image =
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png";
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png';
           return res.send(metadata);
-        } else if (!imagePath.includes("http")) {
-          imagePath = "https://" + source + imagePath;
+        } else if (!imagePath.includes('http')) {
+          imagePath = 'https://' + source + imagePath;
           metadata.image = imagePath;
         }
         return res.send(metadata);
       },
       function (error) {
-        console.log(error + "-- " + id);
+        console.log(error + '-- ' + id);
         return res.sendStatus(500);
       }
     );
