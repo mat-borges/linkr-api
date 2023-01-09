@@ -1,17 +1,15 @@
-import { connection } from "../db/db.js";
+import { connection } from '../db/db.js';
 
 async function publish(user_id, link, description) {
-  return connection.query(
-    `INSERT INTO posts (user_id, link, description) VALUES ($1,$2,$3);`,
-    [user_id, link, description]
-  );
+  return connection.query(`INSERT INTO posts (user_id, link, description) VALUES ($1,$2,$3);`, [
+    user_id,
+    link,
+    description,
+  ]);
 }
 
 async function getUserPosts(user_id) {
-  return connection.query(
-    `SELECT * FROM posts WHERE user_id=$1 ORDER BY created_at DESC;`,
-    [user_id]
-  );
+  return connection.query(`SELECT * FROM posts WHERE user_id=$1 ORDER BY created_at DESC;`, [user_id]);
 }
 
 async function deleteUserPosts(posts_id) {
@@ -19,18 +17,16 @@ async function deleteUserPosts(posts_id) {
 }
 
 async function getPostMetadata(posts_id) {
-  return connection.query(`SELECT link FROM posts WHERE posts.id = $1`, [
-    posts_id,
-  ]);
+  return connection.query(`SELECT link FROM posts WHERE posts.id = $1`, [posts_id]);
 }
 
-async function getPostsByUser(name) {
+async function getPostsByUser(id) {
   return connection.query(
-    `SELECT p.*,u.image AS user_image FROM posts p
+    `SELECT p.*,u.image AS user_image, u.name AS name FROM posts p
     LEFT JOIN users u ON u.id=p.user_id
-    WHERE u.name ILIKE $1
+    WHERE u.id=$1
     ORDER BY p.created_at DESC;`,
-    [name]
+    [id]
   );
 }
 
@@ -38,7 +34,9 @@ async function getLikesByPost(post_id) {
   return connection.query(
     `
     SELECT users.name, posts.id as post_id, users.id as user_id
-    FROM likes JOIN posts ON likes.post_id = posts.id JOIN users on users.id = likes.user_id WHERE posts.id = $1;
+    FROM likes JOIN posts ON likes.post_id = posts.id
+    JOIN users on users.id = likes.user_id
+    WHERE posts.id = $1;
   `,
     [post_id]
   );
@@ -62,6 +60,10 @@ async function dislikePost(user_id, post_id) {
   );
 }
 
+async function updateUserPost(description, post_id) {
+  return connection.query(`UPDATE posts SET description=$1 WHERE id=$2;`, [description, post_id]);
+}
+
 const postsRepository = {
   publish,
   getUserPosts,
@@ -71,6 +73,7 @@ const postsRepository = {
   getLikesByPost,
   likePost,
   dislikePost,
+  updateUserPost,
 };
 
 export default postsRepository;
