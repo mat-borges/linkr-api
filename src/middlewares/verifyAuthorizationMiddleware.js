@@ -21,7 +21,6 @@ export async function verifySession(req, res, next) {
 
   try {
     const session = (await sessionRepository.getSession(token)).rows[0];
-    console.log(session);
     if (!session || session.status === false) {
       res.sendStatus(401);
     } else {

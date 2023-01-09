@@ -40,3 +40,15 @@ export async function signIn(req, res) {
     return res.status(500).send(error.message);
   }
 }
+
+export async function logOut (req, res) {
+    const { token } = req.body;
+   
+    try {
+        await sessionRepository.closeSession(token);
+        res.sendStatus(200);
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+
+}

@@ -18,15 +18,27 @@ async function deleteUserPosts(posts_id) {
   return connection.query(`DELETE FROM posts WHERE posts.id=$1;`, [posts_id]);
 }
 
-async function getPostMetadata(posts_id) {
+async function getPostMetadata(posts_id)  {
   return connection.query(`SELECT link FROM posts WHERE posts.id = $1`, [
     posts_id,
-  ]);
+  ]);;
 }
+
+async function getPostsByUser(name) {
+  return connection.query(
+    `SELECT p.*,u.image AS user_image FROM posts p
+    LEFT JOIN users u ON u.id=p.user_id
+    WHERE u.name ILIKE $1
+    ORDER BY p.created_at DESC;`,
+    [name]
+  );
+}
+
 const postsRepository = {
   publish,
   getUserPosts,
   deleteUserPosts,
+  getPostsByUser,
   getPostMetadata,
 };
 
