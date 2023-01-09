@@ -14,7 +14,7 @@ async function getUserByEmail(email) {
 }
 
 async function searchBarUser(name) {
-  return connection.query(`SELECT name, image FROM users WHERE name ILIKE $1;`, [name]);
+  return connection.query(`SELECT id as user_id, name, image FROM users WHERE name ILIKE $1;`, [name]);
 }
 
 const userRepository = {
