@@ -18,10 +18,10 @@ async function deleteUserPosts(posts_id) {
   return connection.query(`DELETE FROM posts WHERE posts.id=$1;`, [posts_id]);
 }
 
-async function getPostMetadata(posts_id)  {
+async function getPostMetadata(posts_id) {
   return connection.query(`SELECT link FROM posts WHERE posts.id = $1`, [
     posts_id,
-  ]);;
+  ]);
 }
 
 async function getPostsByUser(name) {
@@ -34,12 +34,33 @@ async function getPostsByUser(name) {
   );
 }
 
-async function getLikesByPost(post_id){
-  return connection.query(`
-    SELECT COUNT(*) as likes FROM likes JOIN posts ON likes.post_id = posts.id WHERE posts.id = $1;
-  `,[post_id])
+async function getLikesByPost(post_id) {
+  return connection.query(
+    `
+    SELECT users.name, posts.id as post_id, users.id as user_id
+    FROM likes JOIN posts ON likes.post_id = posts.id JOIN users on users.id = likes.user_id WHERE posts.id = $1;
+  `,
+    [post_id]
+  );
 }
 
+async function likePost(user_id, post_id) {
+  return connection.query(
+    `
+    INSERT INTO likes (user_id,post_id) VALUES ($1,$2);
+  `,
+    [user_id, post_id]
+  );
+}
+
+async function dislikePost(user_id, post_id) {
+  return connection.query(
+    `
+    DELETE FROM likes WHERE user_id=$1 AND post_id=$2;
+  `,
+    [user_id, post_id]
+  );
+}
 
 const postsRepository = {
   publish,
@@ -47,7 +68,9 @@ const postsRepository = {
   deleteUserPosts,
   getPostsByUser,
   getPostMetadata,
-  getLikesByPost,  
+  getLikesByPost,
+  likePost,
+  dislikePost,
 };
 
 export default postsRepository;

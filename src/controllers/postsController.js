@@ -36,7 +36,20 @@ export async function deletePost(req, res) {
 export async function likePost(req, res) {
   try {
     const { user_id } = res.locals.user;
-    console.log(user_id);
+    const post_id = req.params.id;
+    await postsRepository.likePost(user_id, post_id);
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+export async function dislikePost(req, res) {
+  try {
+    const { user_id } = res.locals.user;
+    const post_id = req.params.id;
+    await postsRepository.dislikePost(user_id, post_id);
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -48,7 +61,21 @@ export async function getLikesByPost(req, res) {
   try {
     const { id } = req.params;
     const likes = await postsRepository.getLikesByPost(id);
-    res.send(likes.rows[0])
+    let users = [];
+    for (let i = 0; i < likes.rows.length; i++) {
+      const name = likes.rows[i].name;
+      const user_id = likes.rows[i].user_id;
+      const obj={
+        name,
+        user_id
+      }
+      users.push(obj)
+    }
+    const data = {
+      likeCount: likes.rows.length,
+      users
+    };
+    res.send(data);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
