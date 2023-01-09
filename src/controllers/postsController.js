@@ -104,7 +104,7 @@ export async function getPostMetadata(req, res) {
         return res.send(metadata);
       },
       function (error) {
-        console.log(error + "-- " + id);
+        console.log(error);
         return res.sendStatus(500);
       }
     );
