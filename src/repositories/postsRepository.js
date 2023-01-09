@@ -60,8 +60,8 @@ async function dislikePost(user_id, post_id) {
   );
 }
 
-async function updateUserPost(description, post_id){
-  return connection.query(`UPDATE posts SET description=$1 WHERE id=$2;`, [description, post_id])
+async function updateUserPost(description, post_id) {
+  return connection.query(`UPDATE posts SET description=$1 WHERE id=$2;`, [description, post_id]);
 }
 
 const postsRepository = {

@@ -13,11 +13,10 @@ export async function showPosts(req, res) {
 
 export async function showPostsOfUser(req, res) {
   const { id } = req.params;
-  const { name } = res.locals.user;
+
   try {
     const posts = (await postsRepository.getPostsByUser(id)).rows;
-
-    res.send({ posts, name });
+    res.send({ posts, name: posts[0].name });
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
