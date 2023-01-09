@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { showPostsRelatedToHashtag } from "../controllers/hashtagController.js";
+import { showPostsRelatedToHashtag } from "../controllers/timelineController.js";
 import { authenticateUser, verifySession } from "../middlewares/verifyAuthorizationMiddleware.js";
 
 const router = Router();
