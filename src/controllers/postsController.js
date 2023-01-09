@@ -44,6 +44,17 @@ export async function likePost(req, res) {
   }
 }
 
+export async function getLikesByPost(req, res) {
+  try {
+    const { id } = req.params;
+    const likes = await postsRepository.getLikesByPost(id);
+    res.send(likes.rows[0])
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
 export async function getPostMetadata(req, res) {
   try {
     const { id } = req.params;

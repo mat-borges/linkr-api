@@ -34,12 +34,20 @@ async function getPostsByUser(name) {
   );
 }
 
+async function getLikesByPost(post_id){
+  return connection.query(`
+    SELECT COUNT(*) as likes FROM likes JOIN posts ON likes.post_id = posts.id WHERE posts.id = $1;
+  `,[post_id])
+}
+
+
 const postsRepository = {
   publish,
   getUserPosts,
   deleteUserPosts,
   getPostsByUser,
   getPostMetadata,
+  getLikesByPost,  
 };
 
 export default postsRepository;
