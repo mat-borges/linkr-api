@@ -1,11 +1,16 @@
 import { Router } from 'express';
-import { deletePost } from '../controllers/postsController.js';
+import { verify } from 'jsonwebtoken';
+import { deletePost, updatePost } from '../controllers/postsController.js';
 import { showPosts } from '../controllers/timelineController.js';
+import { hashtagExists } from '../middlewares/hashtagsMiddleware.js';
+import { postSchemaValidation } from '../middlewares/postsMiddleware.js';
+import { authenticateUser, verifySession } from '../middlewares/verifyAuthorizationMiddleware.js';
 
 
 const router = Router();
 
 router.get('/timeline', showPosts);
-router.delete('/timeline/:id', deletePost)
+router.delete('/timeline/:id', authenticateUser, verify, deletePost)
+router.put('/timeline/:id', authenticateUser, verifySession, postSchemaValidation, hashtagExists, updatePost)
 
 export default router;
