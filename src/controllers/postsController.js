@@ -24,7 +24,10 @@ export async function publishLink(req, res) {
 
 export async function deletePost(req, res) {
   const { id } = req.params;
+  const { user_id } = res.locals.user;
   try {
+    await hashtagsRepository.deleteHashtag(id);
+    await postsRepository.dislikePost(user_id, id)
     await postsRepository.deleteUserPosts(id);
     res.sendStatus(200);
   } catch (err) {
@@ -111,5 +114,25 @@ export async function getPostMetadata(req, res) {
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
+  }
+}
+
+export async function updatePost(req, res){
+  const {description} = req.body
+  const {id} = req.params
+  const {hashtagIds} = res.locals
+  try{
+    await postsRepository.updateUserPost(description, id)
+
+    if (hashtagIds) {
+      for (const hashtag_id of hashtagIds) {
+        await hashtagsRepository.deleteHashtag(id, hashtag_id)
+        await hashtagsRepository.relateHashtagPost(id, hashtag_id);
+      }
+    }
+    res.sendStatus(200)
+  }catch(err){
+    res.sendStatus(500)
+    console.log(err)
   }
 }

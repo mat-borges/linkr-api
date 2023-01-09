@@ -47,6 +47,10 @@ async function searchBarHashtag(name) {
   return connection.query(`SELECT * FROM hashtags WHERE name ILIKE $1;`, [name]);
 }
 
+async function deleteHashtag(post_id){
+  return connection.query(`DELETE FROM hashtag_post WHERE post_id=$1;`, [post_id])
+}
+
 const hashtagsRepository = {
   insertHashtag,
   searchHashtag,
@@ -54,6 +58,7 @@ const hashtagsRepository = {
   getPostsRelatedToHashtag,
   getTopTrending,
   searchBarHashtag,
+  deleteHashtag,
 };
 
 export default hashtagsRepository;
