@@ -13,14 +13,14 @@ async function getUserByEmail(email) {
   return connection.query(`SELECT * FROM users WHERE email=$1;`, [email]);
 }
 
-async function searchUser(name) {
+async function searchBarUser(name) {
   return connection.query(`SELECT name, image FROM users WHERE name ILIKE $1;`, [name]);
 }
 
 const userRepository = {
   newUser,
   getUserByEmail,
-  searchUser,
+  searchBarUser,
 };
 
 export default userRepository;
