@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import followsRepository from '../repositories/followsRepository.js';
 import jwt from 'jsonwebtoken';
 import sessionRepository from '../repositories/sessionRepository.js';
 import userRepository from '../repositories/userRepository.js';
@@ -20,11 +21,9 @@ export async function signIn(req, res) {
   const user = res.locals.user;
 
   try {
-    const userDb = (await userRepository.getUserByEmail(user.email)).rows[0];
-
-    const { name, image, id } = userDb;
-
-    const token = jwt.sign({ user_id: id, name, image }, process.env.SECRET);
+    const { name, image, id } = (await userRepository.getUserByEmail(user.email)).rows[0];
+    const following = (await followsRepository.getUserFollowingIds(id)).rows;
+    const token = jwt.sign({ user_id: id, name, image, following }, process.env.SECRET);
 
     await sessionRepository.newSession(id, token);
 
@@ -33,6 +32,7 @@ export async function signIn(req, res) {
       user_id: id,
       name,
       image,
+      following,
     };
 
     res.send(obj);

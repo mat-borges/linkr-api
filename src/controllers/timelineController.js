@@ -1,7 +1,7 @@
-import hashtagsRepository from "../repositories/hashtagsRepository.js";
-import urlMetadata from "url-metadata";
-import postsRepository from "../repositories/postsRepository.js";
-import timelineRepository from "../repositories/timelineRepository.js";
+import hashtagsRepository from '../repositories/hashtagsRepository.js';
+import postsRepository from '../repositories/postsRepository.js';
+import timelineRepository from '../repositories/timelineRepository.js';
+import urlMetadata from 'url-metadata';
 
 async function addMetadataToPosts(posts) {
   let postsList = [];
@@ -12,15 +12,15 @@ async function addMetadataToPosts(posts) {
       const source = metadata.source;
       if (imagePath.length === 0) {
         metadata.image =
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png";
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png';
         let md_image = metadata.image;
         let md_description = metadata.description;
         let md_title = metadata.title;
         newObj = { ...posts.rows[i], md_image, md_description, md_title };
         postsList.push(newObj);
         return;
-      } else if (!imagePath.includes("http")) {
-        imagePath = "https://" + source + imagePath;
+      } else if (!imagePath.includes('http')) {
+        imagePath = 'https://' + source + imagePath;
         metadata.image = imagePath;
       }
       let md_title = metadata.title;

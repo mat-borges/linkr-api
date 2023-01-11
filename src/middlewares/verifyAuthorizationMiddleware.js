@@ -6,9 +6,10 @@ export function authenticateUser(req, res, next) {
   const token = authorization?.replace(`Bearer `, ``);
 
   try {
-    const { user_id, name, image } = jwt.verify(token, process.env.SECRET);
+    const { user_id, name, image, following } = jwt.verify(token, process.env.SECRET);
+    console.log(following);
     res.locals.token = token;
-    res.locals.user = { user_id, name, image };
+    res.locals.user = { user_id, name, image, following };
     next();
   } catch (err) {
     console.log(err);
