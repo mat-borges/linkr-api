@@ -64,6 +64,14 @@ async function updateUserPost(description, post_id) {
   return connection.query(`UPDATE posts SET description=$1 WHERE id=$2;`, [description, post_id]);
 }
 
+async function repost(post_id, user_id){
+  return connection.query(`INSERT INTO reposts (post_id, user_id) VALUES ($1, $2);`, [post_id, user_id]);
+}
+
+async function getRepost(post_id, user_id){
+  return connection.query(`SELECT * FROM reposts WHERE post_id=$1 AND user_id=$2;`, [post_id, user_id]);
+}
+
 const postsRepository = {
   publish,
   getUserPosts,
@@ -74,6 +82,8 @@ const postsRepository = {
   likePost,
   dislikePost,
   updateUserPost,
+  repost,
+  getRepost,
 };
 
 export default postsRepository;

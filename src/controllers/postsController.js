@@ -136,3 +136,20 @@ export async function updatePost(req, res){
     console.log(err)
   }
 }
+
+export async function repostPost(req, res){
+  const { id } = req.params; // post_id
+  const { user_id } = res.locals.user; // user_id
+  try{
+    const checkRepost = await postsRepository.getRepost(id, user_id)
+    if(checkRepost.rowCount > 0){
+      return res.status(500).send('Post já repostado pelo usuário')
+    }else{
+      await postsRepository.repost(id, user_id)
+    res.sendStatus(201)
+  }
+}catch(err){
+  console.log(err)
+  res.sendStatus(500)
+  }
+}
