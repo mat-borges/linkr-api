@@ -34,7 +34,7 @@ async function addMetadataToPosts(posts) {
 }
 
 export async function showPosts(req, res) {
-  const { following } = req.headers;
+  const { following } = res.locals.user;
   
   try {
     const posts = {rows:[]};
