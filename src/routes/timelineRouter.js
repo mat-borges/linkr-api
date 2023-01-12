@@ -9,9 +9,11 @@ import { verify } from 'jsonwebtoken';
 
 const router = Router();
 
+router.use(authenticateUser, verifySession);
+
 router.get('/timeline', showPosts);
-router.delete('/timeline/:id', authenticateUser, verify, deletePost);
-router.put('/timeline/:id', authenticateUser, verifySession, postSchemaValidation, hashtagExists, updatePost);
-router.get('/timeline/user/:id', authenticateUser, verifySession, showPostsOfUser);
+router.delete('/timeline/:id', deletePost);
+router.put('/timeline/:id', postSchemaValidation, hashtagExists, updatePost);
+router.get('/timeline/user/:id', showPostsOfUser);
 
 export default router;
