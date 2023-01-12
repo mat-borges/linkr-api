@@ -34,13 +34,30 @@ async function addMetadataToPosts(posts) {
 }
 
 export async function showPosts(req, res) {
+  //const { following } = req.headers;
+  
+  const following = [{user_id: "3", follower_id: "2"}, {user_id: "7", follower_id: "2"}]
+  
+  
   try {
-    const posts = await timelineRepository.getPosts();
-    if (posts.rowCount < 0) {
+    const posts = {rows:[]};
+    for(const user of following){
+    const userPosts = (await timelineRepository.getPosts(user.user_id))
+    posts.rows.push(...userPosts.rows);
+    }
+
+    console.log(posts)
+ 
+    if (posts.rows.length < 0) {
       return res.sendStatus(404);
     }
     const postsWithMetadatas = await addMetadataToPosts(posts);
-    res.send(postsWithMetadatas);
+
+    postsWithMetadatas.sort((a, b) => {
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
+
+    res.send(postsWithMetadatas)
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
