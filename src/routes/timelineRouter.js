@@ -5,7 +5,6 @@ import { showPosts, showPostsOfUser } from '../controllers/timelineController.js
 import { Router } from 'express';
 import { hashtagExists } from '../middlewares/hashtagsMiddleware.js';
 import { postSchemaValidation } from '../middlewares/postsMiddleware.js';
-import { verify } from 'jsonwebtoken';
 
 const router = Router();
 

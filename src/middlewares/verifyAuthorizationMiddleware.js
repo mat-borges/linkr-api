@@ -7,7 +7,6 @@ export function authenticateUser(req, res, next) {
 
   try {
     const { user_id, name, image, following } = jwt.verify(token, process.env.SECRET);
-    console.log(following);
     res.locals.token = token;
     res.locals.user = { user_id, name, image, following };
     next();
