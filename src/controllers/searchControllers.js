@@ -1,3 +1,4 @@
+import followsRepository from '../repositories/followsRepository.js';
 import hashtagsRepository from '../repositories/hashtagsRepository.js';
 import userRepository from '../repositories/userRepository.js';
 
