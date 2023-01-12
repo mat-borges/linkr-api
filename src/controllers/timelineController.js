@@ -34,10 +34,7 @@ async function addMetadataToPosts(posts) {
 }
 
 export async function showPosts(req, res) {
-  //const { following } = req.headers;
-  
-  const following = [{user_id: "3", follower_id: "2"}, {user_id: "7", follower_id: "2"}]
-  
+  const { following } = req.headers;
   
   try {
     const posts = {rows:[]};
@@ -46,7 +43,6 @@ export async function showPosts(req, res) {
     posts.rows.push(...userPosts.rows);
     }
 
-    console.log(posts)
  
     if (posts.rows.length < 0) {
       return res.sendStatus(404);
