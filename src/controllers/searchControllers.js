@@ -1,3 +1,4 @@
+import followsRepository from '../repositories/followsRepository.js';
 import hashtagsRepository from '../repositories/hashtagsRepository.js';
 import userRepository from '../repositories/userRepository.js';
 
@@ -24,6 +25,18 @@ export async function searchHashtag(req, res) {
       hashtags[i] = { ...hashtags[i], name: `#${hashtags[i].name}` };
     }
     res.send(hashtags);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export async function getFollowings(req, res) {
+  const { user_id } = res.locals.user;
+  console.log(res.locals.user);
+  try {
+    const following = (await followsRepository.getUserFollowingIds(user_id)).rows;
+    res.send(following);
   } catch (err) {
     console.log(err);
     res.sendStatus(500);

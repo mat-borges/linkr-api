@@ -1,11 +1,14 @@
 import { authenticateUser, verifySession } from '../middlewares/verifyAuthorizationMiddleware.js';
-import { searchHashtag, searchUser } from '../controllers/searchControllers.js';
+import { getFollowings, searchHashtag, searchUser } from '../controllers/searchControllers.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
-router.use('/search/user/:input', authenticateUser, verifySession, searchUser);
-router.use('/search/hashtag/:input', authenticateUser, verifySession, searchHashtag);
+router.use(authenticateUser, verifySession);
+
+router.get('/search/user/:input', searchUser);
+router.get('/search/hashtag/:input', searchHashtag);
+router.get('/following/:id', getFollowings);
 
 export default router;
