@@ -30,15 +30,3 @@ export async function searchHashtag(req, res) {
     res.sendStatus(500);
   }
 }
-
-export async function getFollowings(req, res) {
-  const { user_id } = res.locals.user;
-  console.log(res.locals.user);
-  try {
-    const following = (await followsRepository.getUserFollowingIds(user_id)).rows;
-    res.send(following);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-}

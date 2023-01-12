@@ -1,7 +1,8 @@
 import { authenticateUser, verifySession } from '../middlewares/verifyAuthorizationMiddleware.js';
-import { getFollowings, searchHashtag, searchUser } from '../controllers/searchControllers.js';
+import { searchHashtag, searchUser } from '../controllers/searchControllers.js';
 
 import { Router } from 'express';
+import { getFollowings } from '../controllers/followsControllers.js';
 
 const router = Router();
 
