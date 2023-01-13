@@ -23,7 +23,7 @@ export async function signIn(req, res) {
   try {
     const { name, image, id } = (await userRepository.getUserByEmail(user.email)).rows[0];
     const following = (await followsRepository.getUserFollowingIds(id)).rows;
-    const token = jwt.sign({ user_id: id, name, image, following }, process.env.SECRET);
+    const token = jwt.sign({ user_id: id, name, image, following }, process.env.SECRET, { expiresIn: '10h' });
 
     await sessionRepository.newSession(id, token);
 
