@@ -6,7 +6,6 @@ export async function followUser(req, res) {
   try {
     await followsRepository.follow(id, user_id);
     const response = await followsRepository.getUserFollowingIds(user_id);
-    console.log(response.rows)
     res.send(response.rows);
   } catch (err) {
     console.log(err);
