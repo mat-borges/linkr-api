@@ -22,7 +22,6 @@ export async function checkUserToDeleteComment(req, res, next) {
     const comment_info = (await commentsRepository.getUserFromComment(comment_id)).rows[0];
     if (comment_info.user_id === user_id) {
       res.locals.comment = comment_info;
-      console.log(res.locals.comment);
       next();
     } else {
       return res.status(401).send({ message: "You can't delete a comment that's not yours" });

@@ -17,7 +17,7 @@ async function deleteUserPosts(posts_id) {
 }
 
 async function getPostMetadata(posts_id) {
-  return connection.query(`SELECT link FROM posts WHERE posts.id = $1`, [posts_id]);
+  return connection.query(`SELECT link FROM posts WHERE posts.id = $1;`, [posts_id]);
 }
 
 async function getPostsByUser(id) {
@@ -64,11 +64,11 @@ async function updateUserPost(description, post_id) {
   return connection.query(`UPDATE posts SET description=$1 WHERE id=$2;`, [description, post_id]);
 }
 
-async function repost(post_id, user_id){
+async function repost(post_id, user_id) {
   return connection.query(`INSERT INTO reposts (post_id, user_id) VALUES ($1, $2);`, [post_id, user_id]);
 }
 
-async function getRepost(post_id, user_id){
+async function getRepost(post_id, user_id) {
   return connection.query(`SELECT * FROM reposts WHERE post_id=$1 AND user_id=$2;`, [post_id, user_id]);
 }
 
