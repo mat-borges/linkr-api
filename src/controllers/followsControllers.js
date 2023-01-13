@@ -28,7 +28,6 @@ export async function unfollowUser(req, res) {
 
 export async function getFollowings(req, res) {
   const { user_id } = res.locals.user;
-  console.log(res.locals.user);
   try {
     const following = (await followsRepository.getUserFollowingIds(user_id)).rows;
     res.send(following);
