@@ -5,6 +5,7 @@ import urlMetadata from 'url-metadata';
 
 async function addMetadataToPosts(posts) {
   let postsList = [];
+  console.log(posts.rows[0])
   for (let i = 0; i < posts.rows.length; i++) {
     await urlMetadata(posts.rows[i].link).then(function (metadata) {
       let newObj = {};
@@ -34,16 +35,16 @@ async function addMetadataToPosts(posts) {
 }
 
 export async function showPosts(req, res) {
-  const { following } = res.locals.user;
+  const {  following } = res.locals.user;
   
   try {
     const posts = {rows:[]};
     for(const user of following){
-    const userPosts = (await timelineRepository.getPosts(user.user_id))
+    const userPosts = (await timelineRepository.getPostsAndReposts(user.user_id))
     posts.rows.push(...userPosts.rows);
     }
 
- 
+    
     if (posts.rows.length < 0) {
       return res.sendStatus(404);
     }
