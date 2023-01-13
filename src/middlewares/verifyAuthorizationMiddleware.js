@@ -1,14 +1,23 @@
 import jwt from 'jsonwebtoken';
 import sessionRepository from '../repositories/sessionRepository.js';
 
-export function authenticateUser(req, res, next) {
+export async function authenticateUser(req, res, next) {
   const { authorization } = req.headers;
   const token = authorization?.replace(`Bearer `, ``);
 
   try {
-    const { user_id, name, image, following } = jwt.verify(token, process.env.SECRET);
+    let user = {};
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+      if (!decoded) {
+        console.log(err);
+        sessionRepository.closeSession(token);
+      } else {
+        const { user_id, name, image, following } = decoded;
+        user = { user_id, name, image, following };
+      }
+    });
     res.locals.token = token;
-    res.locals.user = { user_id, name, image, following };
+    res.locals.user = { user_id: user.user_id, name: user.name, image: user.image, following: user.following };
     next();
   } catch (err) {
     console.log(err);
