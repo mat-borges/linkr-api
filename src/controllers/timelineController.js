@@ -5,7 +5,6 @@ import urlMetadata from 'url-metadata';
 
 async function addMetadataToPosts(posts) {
   let postsList = [];
-  console.log(posts.rows[0])
   for (let i = 0; i < posts.rows.length; i++) {
     await urlMetadata(posts.rows[i].link).then(function (metadata) {
       let newObj = {};
@@ -35,24 +34,26 @@ async function addMetadataToPosts(posts) {
 }
 
 export async function showPosts(req, res) {
-  const {  following } = res.locals.user;
-  
+  const { following } = res.locals.user;
+
   try {
-    const posts = {rows:[]};
-    for(const user of following){
-    const userPosts = (await timelineRepository.getPostsAndReposts(user.user_id))
-    posts.rows.push(...userPosts.rows);
+    const posts = { rows: [] };
+    for (const user of following) {
+      const userPosts = await timelineRepository.getPostsAndReposts(user.user_id);
+      posts.rows.push(...userPosts.rows);
     }
 
-    
+    posts.rows.sort((a, b) => {
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
+
+    const lastPosts = { rows: posts.rows.slice(0, 20) };
+
     if (posts.rows.length < 0) {
       return res.sendStatus(404);
     }
-    const postsWithMetadatas = await addMetadataToPosts(posts);
 
-    postsWithMetadatas.sort((a, b) => {
-      return new Date(a.created_at) - new Date(b.created_at);
-    });
+    const postsWithMetadatas = await addMetadataToPosts(lastPosts);
 
     res.send(postsWithMetadatas);
   } catch (err) {
