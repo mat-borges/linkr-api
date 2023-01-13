@@ -26,10 +26,15 @@ async function searchBarUser(name) {
   );
 }
 
+async function getUserInfo(id) {
+  return connection.query(`SELECT id, name, email, image FROM users WHERE id=$1;`, [id]);
+}
+
 const userRepository = {
   newUser,
   getUserByEmail,
   searchBarUser,
+  getUserInfo,
 };
 
 export default userRepository;

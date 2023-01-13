@@ -35,15 +35,14 @@ async function addMetadataToPosts(posts) {
 
 export async function showPosts(req, res) {
   const { following } = res.locals.user;
-  
+
   try {
-    const posts = {rows:[]};
-    for(const user of following){
-    const userPosts = (await timelineRepository.getPosts(user.user_id))
-    posts.rows.push(...userPosts.rows);
+    const posts = { rows: [] };
+    for (const user of following) {
+      const userPosts = await timelineRepository.getPosts(user.user_id);
+      posts.rows.push(...userPosts.rows);
     }
 
- 
     if (posts.rows.length < 0) {
       return res.sendStatus(404);
     }
@@ -53,7 +52,7 @@ export async function showPosts(req, res) {
       return new Date(a.created_at) - new Date(b.created_at);
     });
 
-    res.send(postsWithMetadatas)
+    res.send(postsWithMetadatas);
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
@@ -62,11 +61,11 @@ export async function showPosts(req, res) {
 
 export async function showPostsOfUser(req, res) {
   const { id } = req.params;
-
+  const { name } = res.locals;
   try {
     const posts = await postsRepository.getPostsByUser(id);
     const postsWithMetadatas = await addMetadataToPosts(posts);
-    res.send({ posts: postsWithMetadatas, name: posts.rows[0].name });
+    res.send({ posts: postsWithMetadatas, name });
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
