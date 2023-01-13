@@ -27,7 +27,9 @@ async function getPostsRelatedToHashtag(hashtag) {
     JOIN hashtag_post ON posts.id = hashtag_post.post_id
     JOIN hashtags ON hashtags.id = hashtag_post.hashtag_id
     LEFT JOIN users ON posts.user_id = users.id
-    WHERE hashtags.name = $1;
+    WHERE hashtags.name = $1
+    ORDER BY posts."created_at" DESC
+    LIMIT 10;
   `,
     [hashtag]
   );
