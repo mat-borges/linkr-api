@@ -21,7 +21,8 @@ export function postSchemaValidation(req, res, next) {
 
 export async function followingValidation(req, res, next) {
   const { user_id } = res.locals.user;
-  const checkFollow = await followsRepository.getUserFollowingIds(user_id)
+  const { id } = req.params
+  const checkFollow = await followsRepository.checkFollowing(id, user_id)
   if (checkFollow.rowCount > 0) {
     return res.sendStatus(404)
   }
@@ -30,7 +31,8 @@ export async function followingValidation(req, res, next) {
 
 export async function unfollowingValidation(req, res, next) {
   const { user_id } = res.locals.user;
-  const checkUnfollow = await followsRepository.getUserFollowingIds(user_id)
+  const {id} = req.params
+  const checkUnfollow = await followsRepository.checkFollowing(id, user_id)
   if (checkUnfollow.rowCount === 0) {
     return res.sendStatus(404)
   }
