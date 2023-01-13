@@ -6,9 +6,10 @@ import {
   likePost,
   publishLink,
 } from '../controllers/postsController.js';
+import { getComments, insertNewComment } from '../controllers/commentsController.js';
 
 import { Router } from 'express';
-import { getComments } from '../controllers/commentsController.js';
+import { commentSchemaValidation } from '../middlewares/commentsMiddleware.js';
 import { hashtagExists } from '../middlewares/hashtagsMiddleware.js';
 import { postSchemaValidation } from '../middlewares/postsMiddleware.js';
 
@@ -19,6 +20,7 @@ router.post('/posts/:id/like', authenticateUser, verifySession, likePost);
 router.delete('/posts/:id/like', authenticateUser, verifySession, dislikePost);
 router.get('/posts/:id/like', getLikesByPost);
 router.get('/posts/:id/metadata', getPostMetadata);
+router.post('/posts/:id/comment', authenticateUser, verifySession, commentSchemaValidation, insertNewComment);
 router.get('/posts/:id/comments', authenticateUser, verifySession, getComments);
 
 export default router;

@@ -7,8 +7,17 @@ async function getComments(post_id) {
   );
 }
 
+async function newComment(user_id, post_id, comment) {
+  return connection.query(`INSERT INTO comments (user_id, post_id, comment) VALUES ($1, $2, $3);`, [
+    user_id,
+    post_id,
+    comment,
+  ]);
+}
+
 const commentsRepository = {
   getComments,
+  newComment,
 };
 
 export default commentsRepository;
